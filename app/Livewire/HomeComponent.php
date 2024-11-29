@@ -7,19 +7,35 @@ use Livewire\Component;
 
 class HomeComponent extends Component
 {
-    public $posts;
+    public $posts, $editingPost;
     public $description;
     public $text;
     public $title;
     public $post_id;
+    
     public $isEditing = false;
-    public $new_description;
-    public $new_text;
-    public $new_title;
+    public $activeForm = false;
 
+    public $searchdescription;
+    public $searchtext;
+    public $searchtitle;
+
+    public $editdescription;
+    public $edittext;
+    public $edittitle;
+
+    public function mount(){
+        $this->all();
+    }
+
+    public function all(){
+        $this->posts = Post::all();
+
+        return $this->posts;
+    }
+    
     public function render()
     {
-        $this->posts = Post::all();
         return view('livewire.home-component');
     }
 
@@ -34,6 +50,9 @@ class HomeComponent extends Component
 
             $this->reset(['title', 'description', 'text']);
         }
+        $this->activeForm = false;
+        $this->all();
+
     }
 
     public function destroy($id)
@@ -43,17 +62,18 @@ class HomeComponent extends Component
         if ($post) {
             $post->delete();
         }
+        $this->all();
+
     }
 
-
     public function edit($id){
-
+    // dd(12);
         $post = Post::findorFail($id);
-        $this->isEditing = true;
+        $this->editingPost = $post->id;
         $this->post_id = $post->id;
-        $this->title = $post->title;
-        $this->description = $post->description;
-        $this->text = $post->text;
+        $this->edittitle = $post->title;
+        $this->editdescription = $post->description;
+        $this->edittext = $post->text;
 
     }
 
@@ -63,17 +83,46 @@ class HomeComponent extends Component
         $post = Post::findOrFail($this->post_id);;
 
         $post->update([
-            'title' => $this->title,
-            'description' => $this->description,
-            'text' => $this->text,
+            'title' => $this->edittitle,
+            'description' => $this->editdescription,
+            'text' => $this->edittext,
         ]);
-        $this->title = '';
-        $this->description = '';
-        $this->text = '';
-        // $this->reset(['new_title', 'new_description', 'new_text']);
+        $this->edittitle = '';
+        $this->editdescription = '';
+        $this->edittext = '';
+        $this->editingPost = 0;
+        $this->all();
+
+    }
+
+    public function create(){
+        $this->activeForm = true;
+    }
+
+    public function close(){
+        $this->activeForm = false;
     }
 
     public function cencel(){
-        $this->isEditing = false;
+        $this->editingPost = 0;
+        $this->title = '';
+        $this->description = '';
+        $this->text = '';
+        $this->all();
     }
+
+    public function searchColumn(){
+        
+        $this->posts = Post::where('title', 'LIKE', "{$this->searchtitle}%")
+            ->where('description', 'LIKE', "{$this->searchdescription}%")
+            ->where('text', 'LIKE', "{$this->searchtext}%")
+            ->get();
+    }
+
+        public function switch($id){
+            $post = Post::findorFail($id);
+            $post->is_active = !$post->is_active;
+            $post->save();
+            $this->all();
+        }
 }

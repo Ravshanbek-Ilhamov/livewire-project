@@ -10,6 +10,7 @@ class Post extends Model
     protected $fillable = [
         'title',
         'description',
-        'text'
+        'text',
+        'i_active',
     ];
 }

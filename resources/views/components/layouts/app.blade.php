@@ -16,9 +16,8 @@
                         <a href="/posts"wire:navigate>Post</a>
                     </li>
                     <li>
-                        <a href="/"wire:navigate>Calculator</a>
+                        <a href="/category"wire:navigate>Categories</a>
                     </li>
-
                 </ul>
                 {{$slot}}
             </div>

@@ -1,6 +1,7 @@
 <?php
 
 use App\Livewire\AboutComponent;
+use App\Livewire\CategoryComponent;
 use App\Livewire\HomeComponent;
 use Illuminate\Support\Facades\Route;
 
@@ -11,4 +12,4 @@ Route::get('/', function () {
 
 
 Route::get('/posts',HomeComponent::class);
-// Route::get('/calculate',AboutComponent::class);
+Route::get('/category',CategoryComponent::class);
