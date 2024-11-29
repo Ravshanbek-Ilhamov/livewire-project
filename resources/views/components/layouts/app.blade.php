@@ -10,13 +10,16 @@
   <body>
     <div class="container mt-4">
         <div class="row">
-            <div class="col-10 offset-1">
+            <div class="col-12 ">
                 <ul>
                     <li>
                         <a href="/posts"wire:navigate>Post</a>
                     </li>
                     <li>
                         <a href="/category"wire:navigate>Categories</a>
+                    </li>
+                    <li>
+                        <a href="/"wire:navigate>Posts Page</a>
                     </li>
                 </ul>
                 {{$slot}}

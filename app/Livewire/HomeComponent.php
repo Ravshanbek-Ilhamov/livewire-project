@@ -2,16 +2,26 @@
 
 namespace App\Livewire;
 
+use App\Models\Category;
 use App\Models\Post;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class HomeComponent extends Component
 {
+    use WithPagination;
+
     public $posts, $editingPost;
     public $description;
     public $text;
     public $title;
     public $post_id;
+
+    public $category_id;
+    public $categories;
+    public $searchcategory;
+    public $editcategory;
+    public $editcategory_id;
     
     public $isEditing = false;
     public $activeForm = false;
@@ -30,25 +40,28 @@ class HomeComponent extends Component
 
     public function all(){
         $this->posts = Post::all();
-
         return $this->posts;
     }
     
     public function render()
     {
+        $this->categories = Category::all();
         return view('livewire.home-component');
     }
 
     public function store()
     {
-        if ($this->title && $this->description && $this->text && $this->isEditing == false) {
+        // dd($this->category_id);
+        if ($this->title && $this->description && $this->text && $this->category_id && $this->isEditing == false) {
+            // dd($this->category_id);
             Post::create([
                 'title' => $this->title,
                 'description' => $this->description,
                 'text' => $this->text,
+                'category_id' => $this->category_id,
             ]);
 
-            $this->reset(['title', 'description', 'text']);
+            $this->reset(['title', 'description', 'text', 'category_id']);
         }
         $this->activeForm = false;
         $this->all();
@@ -70,11 +83,11 @@ class HomeComponent extends Component
     // dd(12);
         $post = Post::findorFail($id);
         $this->editingPost = $post->id;
+        $this->editcategory_id = $post->category_id;
         $this->post_id = $post->id;
         $this->edittitle = $post->title;
         $this->editdescription = $post->description;
         $this->edittext = $post->text;
-
     }
 
 
@@ -86,10 +99,12 @@ class HomeComponent extends Component
             'title' => $this->edittitle,
             'description' => $this->editdescription,
             'text' => $this->edittext,
+            'category_id' => $this->editcategory,
         ]);
         $this->edittitle = '';
         $this->editdescription = '';
         $this->edittext = '';
+        $this->editcategory;
         $this->editingPost = 0;
         $this->all();
 
@@ -112,10 +127,10 @@ class HomeComponent extends Component
     }
 
     public function searchColumn(){
-        
         $this->posts = Post::where('title', 'LIKE', "{$this->searchtitle}%")
             ->where('description', 'LIKE', "{$this->searchdescription}%")
             ->where('text', 'LIKE', "{$this->searchtext}%")
+            ->where('category_id', 'LIKE', "{$this->searchcategory}%")
             ->get();
     }
 

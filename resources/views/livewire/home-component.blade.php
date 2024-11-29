@@ -3,16 +3,24 @@
     @if ($activeForm )        
         <!-- Form to create a new post -->
         <div class="row">
-            <div class="col-4">
+            <div class="col-3">
                 <input type="text" wire:model="title" class="form-control mt-2" placeholder="Title:">
 
             </div>
-            <div class="col-4">
+            <div class="col-3">
                 <input type="text" wire:model="description" class="form-control mt-2" placeholder="Description:">
             </div>
 
-            <div class="col-4">
+            <div class="col-3">
                 <input type="text" wire:model="text" class="form-control mt-2" placeholder="Text:">
+            </div>
+            <div class="col-3">
+                <select class="form-control mt-2" wire:model="category_id">
+                    <option value="">Select Category</option>
+                    @foreach ($categories as $item)
+                        <option value="{{$item->id}}">{{$item->name}}</option>
+                    @endforeach
+                </select>
             </div>
         </div>
     @endif
@@ -30,6 +38,7 @@
                     <th scope="col">Title</th>
                     <th scope="col">Description</th>
                     <th scope="col">Text</th>
+                    <th scope="col">Category</th>
                     <th scope="col">Active</th>
                     <th scope="col">Actions</th>
                 </tr>
@@ -37,7 +46,7 @@
             <tbody>
                 <tr>
                     <td>
-                        #
+                        
                     </td>
                     <td>
                         <input type="text" wire:model="searchtitle"  class="form-control mt-2" placeholder="Title:"  wire:keydown="searchColumn">
@@ -49,10 +58,18 @@
                         <input type="text" wire:model="searchtext"  class="form-control mt-2" placeholder="Text:" wire:keydown="searchColumn">
                     </td>
                     <td>
-                        #
+                        <select class="form-control mt-2"  wire:model="searchcategory" wire:change="searchColumn">
+                            <option value="">Select Category</option>
+                            @foreach ($categories as $item)
+                                <option value="{{$item->id}}">{{$item->name}}</option>
+                            @endforeach
+                        </select>
                     </td>
                     <td>
-                        #
+                        
+                    </td>
+                    <td>
+                        
                     </td>
                 </tr>
                 @foreach ($posts as $post)
@@ -84,6 +101,14 @@
                                     {{ $post->text }}
                                 </span>
                             </td>
+                            <td>
+                                <span 
+                                    class="{{ $post->is_active ? '' : 'text-danger text-decoration-line-through' }}"
+                                    wire:click="edit({{ $post->id }})"
+                                    style="cursor: pointer;">
+                                    {{ $post->categories->name }}
+                                </span>
+                            </td>
                             
                             <td>
                                 <div class="form-check form-switch mt-3">
@@ -106,7 +131,11 @@
                         </tr>       
                     @elseif($editingPost == $post->id)   
                         <tr>
-                            <td></td>
+                            <td>
+                                <label class="form-control mt-2">
+                                    {{$post->id}}
+                                </label>
+                            </td>
                             <td>
                                 <input type="text" wire:model="edittitle" class="form-control mt-2" placeholder="Title:"> 
                             </td>
@@ -119,8 +148,31 @@
                                 <input type="text" wire:model="edittext" class="form-control mt-2" placeholder="Text:">
                             </td>
                             <td>
-                                <button class="btn btn-primary" wire:click="update">Update</button>
-                                <button class="btn btn-danger"  wire:click="cencel">Cencel</button>
+                                <select class="form-control mt-2" wire:model="editcategory_id">
+                                    @foreach ($categories as $item)
+                                        <option value="{{ $item->id }}" {{ $editcategory_id == $item->id ? 'selected' : '' }}>
+                                            {{ $item->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </td>
+                            
+                        
+                            <td>
+                                <span class="btn btn-primary" wire:click="update" >
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-all" viewBox="0 0 16 16">
+                                        <path d="M8.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L2.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093L8.95 4.992zm-.92 5.14.92.92a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 1 0-1.091-1.028L9.477 9.417l-.485-.486z"/>
+                                    </svg>
+                                </span>
+
+                                <span class="btn btn-danger" wire:click="cencel">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+                                        <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z"/>
+                                      </svg>
+                                </span>
+                            
+                                  {{-- <button class="btn btn-primary" wire:click="update">Update</button> --}}
+                                {{-- <button class="btn btn-danger"  wire:click="cencel">Cencel</button> --}}
                             </td>
                         </tr>
                     @endif

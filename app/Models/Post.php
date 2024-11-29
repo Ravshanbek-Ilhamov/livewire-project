@@ -11,6 +11,11 @@ class Post extends Model
         'title',
         'description',
         'text',
-        'i_active',
+        'category_id',
+        'is_active',
     ];
+
+    public function categories(){
+        return $this->belongsTo(Category::class,'category_id');
+    }
 }
