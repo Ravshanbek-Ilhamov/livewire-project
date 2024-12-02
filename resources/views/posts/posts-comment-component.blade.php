@@ -21,24 +21,26 @@
 
                     <div class="meta-top">
                       <ul>
-                        <li class="d-flex align-items-center"><i class="bi bi-person"></i> <a href="blog-details.html">John Doe</a></li>
-                        <li class="d-flex align-items-center"><i class="bi bi-clock"></i> <a href="blog-details.html"><time datetime="2020-01-01">Jan 1, 2022</time></a></li>
-                        <li class="d-flex align-items-center"><i class="bi bi-chat-dots"></i> <a href="blog-details.html">12 Comments</a></li>
+                        <li class="d-flex align-items-center"><i class="bi bi-eye"></i> <a href="#">{{$detailingPost->views}}</a></li>
+                        <li class="d-flex align-items-center"><i class="bi bi-clock"></i> <a href="#"><time datetime="2020-01-01">{{$detailingPost->created_at}}</time></a></li>
+                        <li class="d-flex align-items-center"><i class="bi bi-chat-dots"></i> <a href="#">{{$detailingPost->comments->count()}} Comments</a></li>
+                        <li class="d-flex align-items-center"><a href="#" wire:click="likeDislike(1)"><i style="color: {{$likesDislike->where('value', true)->where('post_id', $detailingPost->id)->where('user_IP', request()->ip())->isNotEmpty() ? 'green' : '' }};" class="bi bi-hand-thumbs-up-fill"></i> {{$likesDislike->where('post_id',$detailingPost->id)->where('value',true)->count()}}</a></li>
+                        <li class="d-flex align-items-center"><a href="#" wire:click="likeDislike(0)"><i style="color: {{$likesDislike->where('value', false)->where('post_id', $detailingPost->id)->where('user_IP', request()->ip())->isNotEmpty() ? 'red' : '' }};" class="bi bi-hand-thumbs-down-fill"></i> {{$likesDislike->where('post_id',$detailingPost->id)->where('value',false)->count()}}</a></li>
                       </ul>
                     </div><!-- End meta top -->
 
                     <div class="content">
                       <p>{{$detailingPost->description}}</p>
 
-                      <p>{{$detailingPost->text}}</p>
+                      <p>{{$detailingPost->text}}</p> 
 
                     </div><!-- End post content -->
 
                     <div class="meta-bottom">
                       <i class="bi bi-folder"></i>
                       <ul class="cats">
-                        <li><a href="#">Business</a></li>
-                      </ul>
+                        <li><a href="#">{{$detailingPost->categories->name}}</a></li>
+                        </ul>
 
                       <i class="bi bi-tags"></i>
                       <ul class="tags">
@@ -52,119 +54,114 @@
 
                 </div>
               </section><!-- /Blog Details Section -->
-
-
               <!-- Blog Comments Section -->
               <section id="blog-comments" class="blog-comments section">
 
                 <div class="container">
 
-                  <h4 class="comments-count">8 Comments</h4>
-
-                  <div id="comment-1" class="comment">
-                    <div class="d-flex">
-                      <div class="comment-img"><img src="assets/img/blog/comments-1.jpg" alt=""></div>
-                      <div>
-                        <h5><a href="">Georgia Reader</a> <a href="#" class="reply"><i class="bi bi-reply-fill"></i> Reply</a></h5>
-                        <time datetime="2020-01-01">01 Jan,2022</time>
-                        <p>
-                          Et rerum totam nisi. Molestiae vel quam dolorum vel voluptatem et et. Est ad aut sapiente quis molestiae est qui cum soluta.
-                          Vero aut rerum vel. Rerum quos laboriosam placeat ex qui. Sint qui facilis et.
-                        </p>
-                      </div>
-                    </div>
-                  </div><!-- End comment #1 -->
-
-                  <div id="comment-2" class="comment">
-                    <div class="d-flex">
-                      <div class="comment-img"><img src="assets/img/blog/comments-2.jpg" alt=""></div>
-                      <div>
-                        <h5><a href="">Aron Alvarado</a> <a href="#" class="reply"><i class="bi bi-reply-fill"></i> Reply</a></h5>
-                        <time datetime="2020-01-01">01 Jan,2022</time>
-                        <p>
-                          Ipsam tempora sequi voluptatem quis sapiente non. Autem itaque eveniet saepe. Officiis illo ut beatae.
-                        </p>
-                      </div>
-                    </div>
-
-                    <div id="comment-reply-1" class="comment comment-reply">
-                      <div class="d-flex">
-                        <div class="comment-img"><img src="assets/img/blog/comments-3.jpg" alt=""></div>
-                        <div>
-                          <h5><a href="">Lynda Small</a> <a href="#" class="reply"><i class="bi bi-reply-fill"></i> Reply</a></h5>
-                          <time datetime="2020-01-01">01 Jan,2022</time>
-                          <p>
-                            Enim ipsa eum fugiat fuga repellat. Commodi quo quo dicta. Est ullam aspernatur ut vitae quia mollitia id non. Qui ad quas nostrum rerum sed necessitatibus aut est. Eum officiis sed repellat maxime vero nisi natus. Amet nesciunt nesciunt qui illum omnis est et dolor recusandae.
-
-                            Recusandae sit ad aut impedit et. Ipsa labore dolor impedit et natus in porro aut. Magnam qui cum. Illo similique occaecati nihil modi eligendi. Pariatur distinctio labore omnis incidunt et illum. Expedita et dignissimos distinctio laborum minima fugiat.
-
-                            Libero corporis qui. Nam illo odio beatae enim ducimus. Harum reiciendis error dolorum non autem quisquam vero rerum neque.
-                          </p>
-                        </div>
-                      </div>
-
-                      <div id="comment-reply-2" class="comment comment-reply">
-                        <div class="d-flex">
-                          <div class="comment-img"><img src="assets/img/blog/comments-4.jpg" alt=""></div>
-                          <div>
-                            <h5><a href="">Sianna Ramsay</a> <a href="#" class="reply"><i class="bi bi-reply-fill"></i> Reply</a></h5>
-                            <time datetime="2020-01-01">01 Jan,2022</time>
-                            <p>
-                              Et dignissimos impedit nulla et quo distinctio ex nemo. Omnis quia dolores cupiditate et. Ut unde qui eligendi sapiente omnis ullam. Placeat porro est commodi est officiis voluptas repellat quisquam possimus. Perferendis id consectetur necessitatibus.
-                            </p>
+                  <h4 class="comments-count">{{$detailingPost->comments->count()}} Comments</h4>
+                
+                  @php
+                  function findChildComments($comment, $comment_form, $storingcomment)
+                  {
+                      if ($comment->child_comment->count() > 0) {
+                          echo "<ul>";
+                          foreach ($comment->child_comment as $childComment) {
+                              echo "<li>";
+                              echo "<div id='comment-{$childComment->id}' class='comment'>";
+                              echo "  <div class='d-flex'>";
+                              echo "      <div class='comment-img'>";
+                              echo "          <img src='assets/img/blog/comments-" . rand(1, 6) . ".jpg' alt=''>";
+                              echo "      </div>";
+                              echo "      <div>";
+                              echo "          <h5>";
+                              echo "              <a href=''>{$childComment->user_name}</a>";
+                              echo "              <a href='#comment-{$childComment->id}' class='reply' wire:click='storeParentComment({$childComment->id})'>";
+                              echo "                  <i class='bi bi-reply-fill'></i> Reply";
+                              echo "              </a>";
+                              echo "          </h5>";
+                              echo "          <time datetime='{$childComment->created_at}'>{$childComment->created_at}</time>";
+                              echo "          <p>{$childComment->text}</p>";
+                              echo "      </div>";
+                              echo "  </div>";
+              
+                              if ($comment_form == $childComment->id) {
+                                  echo "<div class='reply-textarea mt-3 ms-5'>";
+                                  echo "  <div class='row'>";
+                                  echo "      <div class='col form-group'>";
+                                  echo "          <textarea wire:model='storingchildcomment' class='form-control' placeholder='Your Comment*'></textarea>";
+                                  echo "      </div>";
+                                  echo "  </div>";
+                                  echo "  <button class='btn btn-primary btn-sm mt-2' wire:click='storechildComment'>Submit Reply</button>";
+                                  echo "</div>";
+                              }
+              
+                              echo "</div>"; 
+              
+                              findChildComments($childComment, $comment_form, $storingcomment);
+              
+                              echo "</li>";
+                          }
+                          echo "</ul>";
+                      }
+                  }
+              @endphp
+              
+              @foreach ($detailingPost->comments as $comment)
+                  <div id="comment-{{$comment->id}}" class="comment">
+                      <div id="coomment" class="d-flex">
+                          <div class="comment-img">
+                              <img src="assets/img/blog/comments-{{rand(1,6)}}.jpg" alt="">
                           </div>
-                        </div>
-
-                      </div><!-- End comment reply #2-->
-
-                    </div><!-- End comment reply #1-->
-
-                  </div><!-- End comment #2-->
-
-                  <div id="comment-3" class="comment">
-                    <div class="d-flex">
-                      <div class="comment-img"><img src="assets/img/blog/comments-5.jpg" alt=""></div>
-                      <div>
-                        <h5><a href="">Nolan Davidson</a> <a href="#" class="reply"><i class="bi bi-reply-fill"></i> Reply</a></h5>
-                        <time datetime="2020-01-01">01 Jan,2022</time>
-                        <p>
-                          Distinctio nesciunt rerum reprehenderit sed. Iste omnis eius repellendus quia nihil ut accusantium tempore. Nesciunt expedita id dolor exercitationem aspernatur aut quam ut. Voluptatem est accusamus iste at.
-                          Non aut et et esse qui sit modi neque. Exercitationem et eos aspernatur. Ea est consequuntur officia beatae ea aut eos soluta. Non qui dolorum voluptatibus et optio veniam. Quam officia sit nostrum dolorem.
-                        </p>
+                          <div>
+                              <h5>
+                                  <a href="">{{$comment->user_name}}</a>
+                                  <a href="#coomment" class="reply" wire:click="storeParentComment({{$comment->id}})">
+                                      <i class="bi bi-reply-fill"></i> Reply
+                                  </a>
+                              </h5>
+                              <time datetime="{{$comment->created_at}}">
+                                  {{$comment->created_at}}
+                              </time>
+                              <p>{{$comment->text}}</p>
+                          </div>
                       </div>
-                    </div>
-
-                  </div><!-- End comment #3 -->
-
-                  <div id="comment-4" class="comment">
-                    <div class="d-flex">
-                      <div class="comment-img"><img src="assets/img/blog/comments-6.jpg" alt=""></div>
-                      <div>
-                        <h5><a href="">Kay Duggan</a> <a href="#" class="reply"><i class="bi bi-reply-fill"></i> Reply</a></h5>
-                        <time datetime="2020-01-01">01 Jan,2022</time>
-                        <p>
-                          Dolorem atque aut. Omnis doloremque blanditiis quia eum porro quis ut velit tempore. Cumque sed quia ut maxime. Est ad aut cum. Ut exercitationem non in fugiat.
-                        </p>
-                      </div>
-                    </div>
-
-                  </div><!-- End comment #4 -->
-
+              
+                      <!-- Display reply form for the current comment -->
+                      @if ($comment_form == $comment->id)
+                          <div class="reply-textarea mt-3 ms-5">
+                              <div class="row">
+                                  <div class="col form-group">
+                                      <textarea wire:model="storingchildcomment" class="form-control" placeholder="Your Comment*"></textarea>
+                                  </div>
+                              </div>
+                              <button class="btn btn-primary btn-sm mt-2" wire:click="storechildComment">Submit Reply</button>
+                          </div>
+                      @endif
+                  </div>
+              
+                  <!-- Render child comments -->
+                  @php
+                      findChildComments($comment, $comment_form, $storingcomment);
+                  @endphp
+              @endforeach
+              
+  
                 </div>
 
               </section><!-- /Blog Comments Section -->
 
               <!-- Comment Form Section -->
-              <section id="comment-form" class="comment-form section">
+              <section id="comment" class="comment-form section">
                 <div class="container">
 
-                  <form action="">
+                  <form wire:submit="storeComment">
 
                     <h4>Post Comment</h4>
                     <p>Your email address will not be published. Required fields are marked * </p>
                     <div class="row">
                       <div class="col form-group">
-                        <textarea name="comment" class="form-control" placeholder="Your Comment*"></textarea>
+                        <textarea wire:model="storingcomment" class="form-control" placeholder="Your Comment*"></textarea>
                       </div>
                     </div>
 
@@ -190,9 +187,15 @@
                   <h3 class="widget-title">Categories</h3>
                   <ul class="mt-3">
                     @foreach ($categories as $category)
-                      <li><a href="#">{{$category->name}} <span>({{$category->posts->count()}} )</span></a></li>
+                        <li>
+                            <a href="#" wire:click.prevent="filterByCategory({{ $category->id }})">
+                                {{ $category->name }} 
+                                <span>({{ $category->posts->count() }})</span>
+                            </a>
+                        </li>
                     @endforeach
-                  </ul>
+                </ul>
+                
 
                 </div><!--/Categories Widget -->
 
@@ -299,6 +302,7 @@
                   </div><!-- End post list item -->
               @endforeach
             </div>
+            
           </div>
 
       </section><!-- /Blog Posts Section -->

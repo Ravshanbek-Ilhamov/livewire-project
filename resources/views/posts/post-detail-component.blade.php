@@ -21,7 +21,7 @@
             </ol>
           </div>
         </nav>
-      </div><!-- End Page Title -->
+    </div><!-- End Page Title -->
   
       <div class="container">
         <div class="row">
@@ -44,7 +44,7 @@
                     <ul>
                       <li class="d-flex align-items-center"><i class="bi bi-person"></i> <a href="blog-details.html">John Doe</a></li>
                       <li class="d-flex align-items-center"><i class="bi bi-clock"></i> <a href="blog-details.html"><time datetime="2020-01-01">Jan 1, 2022</time></a></li>
-                      <li class="d-flex align-items-center"><i class="bi bi-chat-dots"></i> <a href="blog-details.html">12 Comments</a></li>
+                      <li class="d-flex align-items-center"><i class="bi bi-chat-dots"></i> <a href="blog-details.html">{{}} Comments</a></li>
                     </ul>
                   </div><!-- End meta top -->
   

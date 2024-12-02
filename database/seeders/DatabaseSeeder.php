@@ -28,10 +28,10 @@ class DatabaseSeeder extends Seeder
             ]);
         }
 
-
         for ($i=0; $i < 80; $i++) { 
             Post::create([
                 'title' => 'Tittle '. $i,
+                'views' => fake()->numberBetween(100,9999),
                 'description' =>fake()->sentence(),
                 'text' =>fake()->text(),
                 'category_id' =>fake()->numberBetween(1,10),

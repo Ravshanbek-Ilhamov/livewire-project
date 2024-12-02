@@ -11,14 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('posts', function (Blueprint $table) {
+        Schema::create('like_dislikes', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->string('description');
-            $table->text('text');
-            $table->bigInteger('views')->default(0);
-            $table->foreignId('category_id')->constrained('categories')->cascadeOnDelete();
-            $table->boolean('is_active')->default(1);
+            $table->string('user_IP')   ;
+            $table->boolean('value')->nullable();
+            $table->foreignId('post_id')->constrained('posts')->cascadeOnDelete();
             $table->timestamps();
         });
     }
@@ -28,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('posts');
+        Schema::dropIfExists('like_dislikes');
     }
 };
