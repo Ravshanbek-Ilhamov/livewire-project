@@ -33,6 +33,14 @@
                     <span class="text-danger">{{ $message }}</span>
                 @enderror
             </div>
+
+            <div class="col-3 mt-2">
+                    <input type="file" id="file" wire:model.blur="file" class="form-control">
+            
+                    @error('file') 
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
+            </div>
         </div>
     @endif
 

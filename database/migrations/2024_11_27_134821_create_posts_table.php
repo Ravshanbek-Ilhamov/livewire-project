@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('title');
             $table->string('description');
             $table->text('text');
+            $table->string('image_path')->nullable();
             $table->bigInteger('views')->default(0);
             $table->foreignId('category_id')->constrained('categories')->cascadeOnDelete();
             $table->boolean('is_active')->default(1);

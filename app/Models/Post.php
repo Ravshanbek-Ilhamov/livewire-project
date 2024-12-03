@@ -14,6 +14,7 @@ class Post extends Model
         'text',
         'category_id',
         'is_active',
+        'image_path',
     ];
 
     public function categories(){

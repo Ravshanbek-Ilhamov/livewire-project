@@ -5,11 +5,13 @@ namespace App\Livewire;
 use App\Models\Category;
 use App\Models\Post;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 use Livewire\WithPagination;
 
 class HomeComponent extends Component
 {
     use WithPagination;
+    use WithFileUploads;
 
     public $posts, $editingPost;
     public $description;
@@ -33,11 +35,13 @@ class HomeComponent extends Component
     public $editdescription;
     public $edittext;
     public $edittitle;
+    public $file;
 
     protected $rules = [
         'title' => 'required|string|min:12|max:255',
         'description' => 'required|string|max:500', 
         'text' => 'required|string', 
+        'file' => 'nullable|file|mimes:jpg,jpeg,png|max:2048', 
         'category_id' => 'required|integer|exists:categories,id',
     ];
 
@@ -62,21 +66,28 @@ class HomeComponent extends Component
 
     }
 
+    
     public function store()
     {
         $this->validate();
 
+        $filePath = null;
+
+        if ($this->file) {
+            $filePath = $this->file->store('posts', 'public'); 
+        }
+        // dd($filePath);
         Post::create([
             'title' => $this->title,
             'description' => $this->description,
             'text' => $this->text,
             'category_id' => $this->category_id,
+            'image_path' => $filePath, 
         ]);
 
-        $this->reset(['title', 'description', 'text', 'category_id']);
+        $this->reset(['title', 'description', 'text', 'category_id', 'file']);
         $this->activeForm = false;
         $this->all();
-
     }
 
     public function destroy($id)
