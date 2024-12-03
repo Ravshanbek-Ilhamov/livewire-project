@@ -34,6 +34,13 @@ class HomeComponent extends Component
     public $edittext;
     public $edittitle;
 
+    protected $rules = [
+        'title' => 'required|string|min:12|max:255',
+        'description' => 'required|string|max:500', 
+        'text' => 'required|string', 
+        'category_id' => 'required|integer|exists:categories,id',
+    ];
+
     public function mount(){
         $this->all();
     }
@@ -49,20 +56,24 @@ class HomeComponent extends Component
         return view('livewire.home-component');
     }
 
+    public function updated($propertyName){
+
+        $this->validateOnly($propertyName);
+
+    }
+
     public function store()
     {
-        // dd($this->category_id);
-        if ($this->title && $this->description && $this->text && $this->category_id && $this->isEditing == false) {
-            // dd($this->category_id);
-            Post::create([
-                'title' => $this->title,
-                'description' => $this->description,
-                'text' => $this->text,
-                'category_id' => $this->category_id,
-            ]);
+        $this->validate();
 
-            $this->reset(['title', 'description', 'text', 'category_id']);
-        }
+        Post::create([
+            'title' => $this->title,
+            'description' => $this->description,
+            'text' => $this->text,
+            'category_id' => $this->category_id,
+        ]);
+
+        $this->reset(['title', 'description', 'text', 'category_id']);
         $this->activeForm = false;
         $this->all();
 

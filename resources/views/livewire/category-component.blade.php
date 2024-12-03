@@ -3,8 +3,11 @@
         @if ($activeForm )        
             <div class="row">
                 <div class="col-4">
-                    <input type="text" wire:model="name" class="form-control mt-2" placeholder="Name:">
+                    <input type="text" wire:model.blur="name" class="form-control mt-2" placeholder="Name:">
                 </div>
+                @error('name') 
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
             </div>
         @endif
     

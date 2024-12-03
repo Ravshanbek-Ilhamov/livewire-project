@@ -4,23 +4,34 @@
         <!-- Form to create a new post -->
         <div class="row">
             <div class="col-3">
-                <input type="text" wire:model="title" class="form-control mt-2" placeholder="Title:">
+                <input type="text" wire:model.blur="title" class="form-control mt-2" placeholder="Title:">
+                @error('title') 
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
+            </div>
+            <div class="col-3">
+                <input type="text" wire:model.blur="description" class="form-control mt-2" placeholder="Description:">
+                @error('description') 
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
+            </div>
 
+            <div class="col-3">
+                <input type="text" wire:model.blur="text" class="form-control mt-2" placeholder="Text:">
+                @error('text') 
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
             </div>
             <div class="col-3">
-                <input type="text" wire:model="description" class="form-control mt-2" placeholder="Description:">
-            </div>
-
-            <div class="col-3">
-                <input type="text" wire:model="text" class="form-control mt-2" placeholder="Text:">
-            </div>
-            <div class="col-3">
-                <select class="form-control mt-2" wire:model="category_id">
+                <select class="form-control mt-2" wire:model.blur="category_id">
                     <option value="">Select Category</option>
                     @foreach ($categories as $item)
                         <option value="{{$item->id}}">{{$item->name}}</option>
                     @endforeach
                 </select>
+                @error('category_id') 
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
             </div>
         </div>
     @endif

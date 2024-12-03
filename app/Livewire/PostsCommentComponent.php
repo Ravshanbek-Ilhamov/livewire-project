@@ -73,7 +73,6 @@ class PostsCommentComponent extends Component
             $data['comment_to_id'] = $this->comment_parent_id;
         }
 
-        // dd($data);
         Comment::create($data);
         $this->comment_form = null;
         $this->storingcomment = ''; 

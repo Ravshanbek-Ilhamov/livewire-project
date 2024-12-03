@@ -8,10 +8,16 @@ use Livewire\Component;
 class CategoryComponent extends Component
 {
     public $categories, $name, $category_id, $searchname ,$editname,$activeForm = false, $editingCategory;
-
+    protected $rules = [
+        'name' => 'required|string|max:255',
+    ];
 
     public function mount(){
         $this->all();
+    }
+
+    public function updated($propertyName){
+        $this->validateOnly($propertyName);
     }
 
     public function all(){
@@ -26,10 +32,9 @@ class CategoryComponent extends Component
 
     public function store()
     {
-        if ($this->name ) {
-            Category::create(['name' => $this->name]);
-            $this->reset(['name']);
-        }
+        $this->validate();
+        Category::create(['name' => $this->name]);
+        $this->reset(['name']);
         $this->activeForm = false;
         $this->all();
     }
