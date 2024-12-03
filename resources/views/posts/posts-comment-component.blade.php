@@ -76,7 +76,7 @@
                               echo "      <div>";
                               echo "          <h5>";
                               echo "              <a href=''>{$childComment->user_name}</a>";
-                              echo "              <a href='#comment-{$childComment->id}' class='reply' wire:click='storeParentComment({$childComment->id})'>";
+                              echo "              <a href='#comment-{$childComment->id}' class='reply' wire:click='storechildComment'>";
                               echo "                  <i class='bi bi-reply-fill'></i> Reply";
                               echo "              </a>";
                               echo "          </h5>";
